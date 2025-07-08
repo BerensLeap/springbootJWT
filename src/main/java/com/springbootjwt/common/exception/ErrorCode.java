@@ -18,7 +18,7 @@ public enum ErrorCode {
     UNSUPPORTED_TOKEN(BAD_REQUEST, "UNSUPPORTED_TOKEN","지원되지 않는 JWT 토큰입니다."),
     USER_NOT_FOUND(NOT_FOUND, "USER_NOT_FOUND", "존재하지 않는 계정입니다."),
     INVALID_USER_ROLE(FORBIDDEN,"INVALID_USER_ROLE","유효하지 않은 권한 입니다."),
-    ALREADY_ADMIN_ROLE(BAD_REQUEST,"ALREADY_ADMIN_ROLE","이미 ADMIN권한을 보유한 사용자입니다.")
+    ALREADY_ADMIN_ROLE(CONFLICT,"ALREADY_ADMIN_ROLE","이미 ADMIN권한을 보유한 사용자입니다.")
     ;
 
     private final HttpStatus httpStatus;

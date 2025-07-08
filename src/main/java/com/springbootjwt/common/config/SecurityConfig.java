@@ -43,8 +43,8 @@ public class SecurityConfig {
                 .rememberMe(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/signup", "/login", "/health").permitAll()
-                        .requestMatchers("/admin/**").hasAuthority(Role.ADMIN.name())
-                        .requestMatchers("/swagger-ui.html",
+                                .requestMatchers("/admin/**").hasAuthority("ROLE_" + Role.ADMIN.name())
+                                 .requestMatchers("/swagger-ui.html",
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
                                 "/swagger-resources/**",
