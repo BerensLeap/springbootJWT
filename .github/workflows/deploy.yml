@@ -34,20 +34,20 @@ jobs:
 
       - run: |
           JAR_FILE=$(find build/libs -name "springboot-JWT-1.0-SNAPSHOT.jar")
-          
+
           if [ -z "$JAR_FILE" ]; then
             echo "JAR file not found in build/libs/. Check your build output."
             exit 1
           fi
           echo "Found JAR file: $JAR_FILE"
           JAR_NAME=$(basename "$JAR_FILE")
-          
+
           echo ">> SCP 시작"
-          scp -vvv -i key.pem -o StrictHostKeyChecking=no "$JAR_FILE" ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/${{ secrets.EC2_USERNAME }}/$JAR_NAME
-          echo ">> SCP 완료"
-          
-          echo ">> SSH 시작"
           scp -vvv -o StrictHostKeyChecking=no "$JAR_FILE" ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/${{ secrets.EC2_USERNAME }}/$JAR_NAME
+          echo ">> SCP 완료"
+
+          echo ">> SSH 시작"
+          ssh -vvv -o StrictHostKeyChecking=no -T -n ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "echo 'SSH 접속 성공'"
           echo ">> SSH 완료"
         env:
           AWS_PAGER: ""
