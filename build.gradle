@@ -53,6 +53,15 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
+jar {
+    enabled = false
+}
+
+bootJar {
+    enabled = true
+    archiveFileName = 'springboot-JWT-1.0-SNAPSHOT.jar'
+}
+
 tasks.named('test') {
     useJUnitPlatform()
 }
