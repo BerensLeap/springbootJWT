@@ -59,7 +59,7 @@ jar {
 
 bootJar {
     enabled = true
-    archiveFileName = 'springboot-JWT-1.0-SNAPSHOT.jar'
+    archiveFileName = 'springboot-JWT-1.0-SNAPSHOT.jar'  // 추가
 }
 
 tasks.named('test') {
