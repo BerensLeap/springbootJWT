@@ -42,10 +42,12 @@ jobs:
           echo "Found JAR file: $JAR_FILE"
           JAR_NAME=$(basename "$JAR_FILE")
           
-          # SCP 전송
-          scp -o StrictHostKeyChecking=no "$JAR_FILE" ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/${{ secrets.EC2_USERNAME }}/$JAR_NAME
+          echo ">> SCP 시작"
+          scp -vvv -o StrictHostKeyChecking=no "$JAR_FILE" ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/${{ secrets.EC2_USERNAME }}/$JAR_NAME
+          echo ">> SCP 완료"
           
-          # SSH 접속 테스트
-          ssh -v -o StrictHostKeyChecking=no -T -n ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "echo 'SSH 접속 성공'"
+          echo ">> SSH 시작"
+          ssh -vvv -o StrictHostKeyChecking=no -T -n ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "echo 'SSH 접속 성공'"
+          echo ">> SSH 완료"
         env:
           AWS_PAGER: ""
