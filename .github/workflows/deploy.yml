@@ -45,18 +45,18 @@ jobs:
             exit 1
           fi
           echo "Found JAR file: $JAR_FILE"
-          JAR_NAME=$(basename "$JAR_FILE") # JAR_FILE에서 파일명만 추출
+          JAR_NAME=$(basename "$JAR_FILE")
 
           SSH_CONTROL_PATH="/tmp/ssh-control-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
 
-          echo ">> SCP 시작"
-          scp -vvv -o StrictHostKeyChecking=no -o ControlMaster=auto -o ControlPersist=60s -o ControlPath="${SSH_CONTROL_PATH}" \
+          echo ">> Rsync 시작"
+          rsync -avz --progress -e "ssh -o StrictHostKeyChecking=no -o ControlMaster=auto -o ControlPersist=60s -o ControlPath=${SSH_CONTROL_PATH}" \
               "$JAR_FILE" \
               ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/${{ secrets.EC2_USERNAME }}/$JAR_NAME
-          echo ">> SCP 완료"
+          echo ">> Rsync 완료"
 
           echo ">> EC2 서버에서 애플리케이션 재시작"
-        
+          
           ssh -o StrictHostKeyChecking=no -o BatchMode=yes -o ExitOnForwardFailure=yes -T -n -o ControlPath="${SSH_CONTROL_PATH}" \
               ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} << 'EOF'
               pkill -f 'springboot-JWT-1.0-SNAPSHOT.jar' || true
@@ -72,7 +72,7 @@ jobs:
           echo ">> 애플리케이션 재시작 명령 전송 완료"
 
           ssh -O exit -o ControlPath="${SSH_CONTROL_PATH}" \
-              ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} || true # 에러 발생해도 무시
+              ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} || true
           echo ">> SSH ControlMaster 소켓 종료"
         env:
           AWS_PAGER: ""
