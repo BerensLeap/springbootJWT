@@ -47,14 +47,13 @@ jobs:
 
           ssh -o StrictHostKeyChecking=no \
               ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} << 'EOF'
-              pkill -f "java -jar your-app.jar" || true 
+              pkill -f "java -jar $(basename "$JAR_FILE")" || true
           
               export SPRING_DATA_REDIS_HOST="${{ secrets.REDIS_ENDPOINT }}" 
               export SPRING_DATA_REDIS_PORT="${{ secrets.REDIS_PORT }}"     
 
               nohup java -jar -Dspring.profiles.active=prod \
-                  /home/${{ secrets.EC2_USERNAME }}/your-app.jar > /home/${{ secrets.EC2_USERNAME }}/application.log 2>&1 &
-          
+                /home/${{ secrets.EC2_USERNAME }}/$(basename "$JAR_FILE") > /home/${{ secrets.EC2_USERNAME }}/application.log 2>&1 &          
               sleep 5
           
               echo "Deployment complete on EC2."
