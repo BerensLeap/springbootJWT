@@ -46,7 +46,7 @@ jobs:
              ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/${{ secrets.EC2_USERNAME }}/$(basename "$JAR_FILE")
 
 
-          ssh -o StrictHostKeyChecking=no -o BatchMode=yes -o ExitOnForwardFailure=yes \ #
+          ssh -o StrictHostKeyChecking=no -o BatchMode=yes -o ExitOnForwardFailure=yes -T -n \ 
             ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} << 'EOF'
             pkill -f "java -jar $(basename "$JAR_FILE")" || true
           
