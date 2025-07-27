@@ -43,7 +43,7 @@ jobs:
           JAR_NAME=$(basename "$JAR_FILE")
           
           echo ">> SCP 시작"
-          scp -vvv -o StrictHostKeyChecking=no "$JAR_FILE" ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/${{ secrets.EC2_USERNAME }}/$JAR_NAME
+          scp -vvv -i key.pem -o StrictHostKeyChecking=no "$JAR_FILE" ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/${{ secrets.EC2_USERNAME }}/$JAR_NAME
           echo ">> SCP 완료"
           
           echo ">> SSH 시작"
