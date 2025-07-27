@@ -46,8 +46,9 @@ jobs:
           scp -vvv -o StrictHostKeyChecking=no "$JAR_FILE" ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/${{ secrets.EC2_USERNAME }}/$JAR_NAME
           echo ">> SCP 완료"
 
-          echo ">> SSH 시작"
-          ssh -vvv -o StrictHostKeyChecking=no -T -n ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "echo 'SSH 접속 성공'"
-          echo ">> SSH 완료"
+          ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} << EOF
+            pkill -f 'springboot-JWT-1.0-SNAPSHOT.jar' || true
+            nohup java -jar /home/${{ secrets.EC2_USERNAME }}/springboot-JWT-1.0-SNAPSHOT.jar > app.log 2>&1 &
+          EOF
         env:
           AWS_PAGER: ""
