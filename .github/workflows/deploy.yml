@@ -42,8 +42,9 @@ jobs:
           echo "Found JAR file: $JAR_FILE"
 
           scp -o StrictHostKeyChecking=no \
-              "$JAR_FILE" \
-              ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/${{ secrets.EC2_USERNAME }}/your-app.jar
+             "$JAR_FILE" \
+             ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/${{ secrets.EC2_USERNAME }}/$(basename "$JAR_FILE")
+
 
           ssh -o StrictHostKeyChecking=no \
               ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} << 'EOF'
