@@ -40,9 +40,9 @@
 
 📂 배포 정보 
 
--EC2 서버 주소: 
+-EC2 서버 주소: http://15.164.94.214:8080
 
--Swagger UI 주소: :8080/swagger-ui/index.html
+-Swagger UI 주소: :http://15.164.94.214:8080/swagger-ui/index.html
 
 ---
 
