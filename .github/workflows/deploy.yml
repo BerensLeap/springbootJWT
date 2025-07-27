@@ -45,9 +45,7 @@ jobs:
           # SCP 전송
           scp -o StrictHostKeyChecking=no "$JAR_FILE" ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/${{ secrets.EC2_USERNAME }}/$JAR_NAME
           
-          # SSH 접속 및 배포
-          ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} << EOF
-            echo "SSH 접속 성공"
-          EOF
+          # SSH 접속 테스트
+          ssh -v -o StrictHostKeyChecking=no -T -n ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "echo 'SSH 접속 성공'"
         env:
           AWS_PAGER: ""
